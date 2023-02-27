@@ -14,12 +14,13 @@ factor ::= atom ( '^' ('(' factor ')' | atom ))*
 atom ::= number | function '(' expr ')' | variable
 number ::= ["-"] digit* '.' digit*
 digit ::= [0-9]
-functon ::= 'sin' | 'cos' | 'exp' | 'log' | 'norm2' | 'tr' | 'det' | 'logdet' | 'inv' | 'sqrt' | 'abs' | 'diag' | 'vector' | 'matrix' | 'sum' '[' index ']'
+functon ::= 'sin' | 'cos' | 'exp' | 'log' | 'sqrt' | 'abs' | 'sum' '[' index ']'
 index ::= alpha
 alpha ::= [a-zA-Z]
 variable ::= alpha+ ( '[' indices ']' )?
 indices ::= alpha {',' alpha}
 """
+
 
 class Parser(object):
     def __init__(self,input):

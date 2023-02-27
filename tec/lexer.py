@@ -27,10 +27,7 @@ class Input(object):
 ALPHA = list(string.ascii_letters)
 
 # allowed functions
-KEYWORD = ["sin", "cos", "exp", "log",
-           "sign", "abs", # "adj", "det", "logdet", \
-           # "matrix", "vector", "diag", "inv", "tr",
-           "sum", "sqrt", "norm1", "norm2", "forall"]
+KEYWORD = ["sin", "cos", "exp", "log", "sign", "abs", "sum", "sqrt", "norm1", "norm2"]
 
 # allowed numbers
 DIGIT = [str(i) for i in range(10)]
@@ -46,16 +43,9 @@ SYMBOL = {'(': 'lrbracket',
           '-': 'minus',
           '/': 'div',
           '^': 'pow',
-          #'.': 'dot',
           ":": 'colon',
           '\'': 'prime',
-          '.*': 'ptimes',
-          #'./': 'pdiv',
-          # '=': 'equal',
-          # ':=': 'assign',
-          # '==': 'doubleequal',
-          # '>': 'greater',
-          # '<': 'lower',
+          '.*': 'ptimes'
           }
 
 # allowed compare operations
