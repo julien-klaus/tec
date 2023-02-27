@@ -29,7 +29,10 @@ class Parser(object):
         self.get_sym()
         self.tensortree = self.expr()
         self.tensortree.indices = self.indices
-        self.tensortree.calculate_scopes()
+        #TODO: check if there are never double indices. E.g. a[i,i]
+        self.tensortree.check_indices()
+        self.tensortree.set_index_property()
+        self.tensortree.set_shapes()
         if self.identifier is not None:
             raise ParserException("Expected nothing got '%s'." % self.identifier, self.scanner.get_column())
 
@@ -94,15 +97,8 @@ class Parser(object):
                     self.get_sym()
                     if self.description_equals("lrbracket"):
                         self.get_sym()
-                        # For each index in 'index_set' create one sum node
-                        indices = index_set.get_name()
-                        root = TensorTree("sum", left=TensorTree(name=[indices[0]],type="index"), type="sum")
-                        tensortree = root
-                        for index in indices[1:]:
-                            tensortree.right = TensorTree("sum", left=TensorTree(name=[index],type="index"), type="sum")
-                            tensortree = tensortree.right
+                        tensortree = TensorTree("sum", left=TensorTree(name=index_set.get_name(),type="index"), type="sum")
                         tensortree.right = self.expr()
-                        tensortree = root
                         if self.description_equals("rrbracket"):
                             self.get_sym()
                         else:
