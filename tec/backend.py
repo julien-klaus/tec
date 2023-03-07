@@ -35,7 +35,7 @@ def to_einsum(tt):
             return tt.get_name() + to_einsum(tt.left)
         # special case ^
         elif tt.get_name() == "^":
-            return to_einsum(tt.left) + "**" + to_einsum(tt.right)
+            return "(" + to_einsum(tt.left) + ")" + "**" + to_einsum(tt.right)
         # special case, we do this using einsum
         elif tt.get_name() in ["*", "/"]:
             einsum_string = "".join(tt.left.index) + "," + "".join(tt.right.index) + "->" + "".join(tt.index)
