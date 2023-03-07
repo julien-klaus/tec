@@ -147,6 +147,7 @@ class TensorTree(object):
                 tmp = tt 
             self.left = TensorTree([first_index], type="index")
             self.left.index = [first_index]
+            tmp.right.flat_sum()
         else:
             if self.left:
                 self.left.flat_sum()
