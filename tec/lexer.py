@@ -27,7 +27,7 @@ class Input(object):
 ALPHA = list(string.ascii_letters)
 
 # allowed functions
-KEYWORD = ["sin", "cos", "exp", "log", "sign", "abs", "sum", "sqrt", "norm1", "norm2"]
+KEYWORD = ["sin", "cos", "exp", "log", "sign", "abs", "sum", "sqrt", "arcsin", "arccos", "arctan", "tanh"]
 
 # allowed numbers
 DIGIT = [str(i) for i in range(10)]
