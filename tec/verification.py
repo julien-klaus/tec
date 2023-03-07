@@ -66,8 +66,8 @@ class Verification(object):
         code += f"einsum = {self.einsum_code}\n"
         # DELTA
         code += f"valid = np.allclose(einsum, unvec)\n"
-        code += f"valid = valid or np.allclose(einsum/n, unvec)\n"
-        code += f"valid = valid or np.allclose(einsum, unvec/n)\n"
+        code += f"valid = valid or np.allclose(einsum/_n, unvec)\n"
+        code += f"valid = valid or np.allclose(einsum, unvec/_n)\n"
         code += f"assert valid"
         return code
 
@@ -85,7 +85,7 @@ class Verification(object):
     def _generate_code_for(self, v):
         nodesCount = v.get_number_of_nodes()
         code = "sums = np.zeros(%i)\n" % (nodesCount)  # is obvious to big
-        code += "n = %i\n" % (self.dim)
+        code += "_n = %i\n" % (self.dim)
         code += self._generate_code_for_helper(v, "", 0)
         code += "unvec = sums[0]\n"
         return code
@@ -97,7 +97,7 @@ class Verification(object):
             if v.get_name() == "sum":
                 index = v.left.get_name()[0]
                 code += level + "sums[%i] = 0\n" % (sumsInd + 1)
-                code += level + "for %s in range(n):\n" % (index)
+                code += level + "for %s in range(_n):\n" % (index)
                 tempcode = self._generate_code_for_helper(v.right, level + "\t", sumsInd + 2)
                 code += tempcode
                 # Innersum add
