@@ -240,7 +240,7 @@ def generate_backend(backend, tensortree, indent='   ', verbose=False):
     _code += f"{result_variable} = {code}"
 
     if verbose:
-        print(code)
+        print("Generated Einsum Code:", code, end="\n\n")
     
     # verify the generated code
     v = Verification(tensortree, to_einsum(tensortree, function_to_numpy))

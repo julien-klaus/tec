@@ -39,7 +39,7 @@ class Verification(object):
             self.t_adjusted.indices = indices
         code = self._generate_code(delta)
         if verbose:
-            print(code)
+            print("## Generated Verification Code ##\n", code.strip(), end="\n## End Generated Verification Code ##\n\n", sep="")
         try:
             exec(code)
         except Exception:
