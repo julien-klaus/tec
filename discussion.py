@@ -1,5 +1,8 @@
 # @author: Julien Klaus
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # suppress tensorflow output
+
 from timeit import default_timer as timer
 
 
@@ -10,10 +13,13 @@ import tensorflow as tf
 
 if __name__ == "__main__":
 
-    
-    for s in [25, 50, 100, 150, 200]:
+    print("Comparision of evaluating the objective function of the tucker decomposition for a tensor of size (s,s,s).")
 
-        I,J,K,L,M,N = s, s, s, 10, 10, 10
+    
+    for dim in [25, 50, 100, 150, 200]:
+        print("\nStart experiment with s =", dim)
+
+        I,J,K,L,M,N = dim, dim, dim, 10, 10, 10
 
         A = np.random.rand(I,J,K)
         Z = np.random.rand(L,M,N)
@@ -38,7 +44,7 @@ if __name__ == "__main__":
         r_for_loops = r_for_loops**(0.5)
         toc = timer()
         t_baseline = (toc-tic) / n_experiments
-        print(f"Baseline computed in {((toc-tic)/n_experiments):.5f}s")
+        print(f"\t* Baseline computed in {((toc-tic)/n_experiments):.5f}s")
 
         
         #### NumPy
@@ -46,7 +52,7 @@ if __name__ == "__main__":
         r_numpy = np.sqrt(np.einsum('ijk->',(A-np.einsum('lmn,li,mj,nk->ijk',Z,B,C,D))**2))
         toc = timer()
         t_numpy = (toc-tic) / n_experiments
-        print(f"NumPy computed in {((toc-tic)/n_experiments):.5f}s")
+        print(f"\t* NumPy computed in {((toc-tic)/n_experiments):.5f}s")
 
         
         #### PyTorch
@@ -59,7 +65,7 @@ if __name__ == "__main__":
         r_torch = torch.sqrt(torch.einsum('ijk->',(tA-torch.einsum('lmn,li,mj,nk->ijk',tZ,tB,tC,tD))**2))
         toc = timer()
         t_pytorch = (toc-tic) / n_experiments
-        print(f"PyTorch computed in {((toc-tic)/n_experiments):.5f}s")
+        print(f"\t* PyTorch computed in {((toc-tic)/n_experiments):.5f}s")
 
 
         #### TensorFlow
@@ -72,12 +78,12 @@ if __name__ == "__main__":
         r_tensorflow = tf.sqrt(tf.einsum('ijk->',(tfA-tf.einsum('lmn,li,mj,nk->ijk',tfZ,tfB,tfC,tfD))**2))
         toc = timer()
         t_tensorflow = (toc-tic) / n_experiments
-        print(f"TensorFlow computed in {((toc-tic)/n_experiments):.5f}s")
+        print(f"\t* TensorFlow computed in {((toc-tic)/n_experiments):.5f}s")
 
 
         # correctness proof
         assert np.allclose(r_for_loops, r_numpy, r_torch, r_tensorflow)
 
         # print results
-        print("Speed-Ups for s =", s, "(Baseline Python, NumPy, TensorFlow, PyTorch):", end=" ")
+        print("\t-> Speed-Ups for s =", dim, "(Baseline Python, NumPy, TensorFlow, PyTorch):", end=" ")
         print(", ".join([str(int(i)) for i in t_baseline / np.array([t_baseline, t_numpy, t_tensorflow, t_pytorch])]))
