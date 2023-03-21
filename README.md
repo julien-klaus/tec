@@ -1,6 +1,7 @@
 # TEC: Tensor Expression Compiler
 
-Transform textbook like expressions into highly-tuned Python library code.
+Transform textbook like expressions into highly-tuned Python library code. 
+Check out [https://tec.pythonanywhere.com/](https://tec.pythonanywhere.com/) for an online service of the translation.
 
 ## Requirements
 To verify our transformation we numerically evaluate the expression with NumPy and generated for-loops. You can install NumPy using
